@@ -31,5 +31,21 @@ def list_prof(marker):
     return render_template('marker.html', prof=professions, marker=marker)
 
 
+@app.route('/answer')
+@app.route('/auto_answer')
+def auto_answer():
+    data = {
+        'title': 'Анкета',
+        'surname': 'Альберт',
+        'name': 'Энштейн',
+        'education': 'высшее',
+        'profession': 'физик',
+        'sex': 'male',
+        'motivation': 'Это моя мечта!',
+        'ready': 'True'
+    }
+    return render_template('auto_answer.html', **data)
+
+
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
