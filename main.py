@@ -20,5 +20,16 @@ def training(prof):
     return render_template('training.html', prof=prof.capitalize())
 
 
+@app.route('/list_prof/<string:marker>')
+def list_prof(marker):
+    professions = ["Инженер-исследователь",
+                   "Инженер-строитель",
+                   "Пилот", "Метеоролог",
+                   "Инженер по жизнеобеспечению",
+                   "Инженер по радиационной защите",
+                   "Врач", "Экзобиолог"]
+    return render_template('marker.html', prof=professions, marker=marker)
+
+
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')

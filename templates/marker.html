@@ -1,0 +1,22 @@
+{% extends "base.html"%}
+
+{% block content %}
+<div class="form-group">
+    <h2>Список профессий для миссии на Марсе</h2>
+    {% if marker == 'ol' %}
+        <ol>
+        {% for elem in prof %}
+            <li>{{ elem }}</li>
+        {% endfor %}
+        </ol>
+    {% elif marker == 'ul' %}
+        <ul>
+        {% for elem in prof %}
+            <li>{{ elem }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Неверный параметр</p>
+    {% endif %}
+</div>
+{% endblock %}
