@@ -1,7 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <link rel="stylesheet" href="../static/css/style.css" type="text/css">
-    <h4><div class="text">И на Марсе будут яблоки цвести!</div></h4>
-    
+<h1>Works log</h1>
+{% for job in jobs %}
+<h3>Action # {{ loop.index }}</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Title of activity</th>
+            <th scope="col">Team leader</th>
+            <th scope="col">Duration</th>
+            <th scope="col">List of collaborators</th>
+            <th scope="col">Is finished</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ job.job }}</td>
+            <td>{{ names[job.team_leader] }}</td>
+            <td>{{ job.work_size }}</td>
+            <td>{{ job.collaborators }}</td>
+            {% if job.is_finished %}
+                <td style="background-color: #9ef7b7">{{ job.is_finished }}</td>
+            {% else %}
+                <td style="background-color: #ff0000">{{ job.is_finished }}</td>
+            {% endif %}
+        </tr>
+    </tbody>
+</table>
+{% endfor %}
 {% endblock %}
