@@ -8,7 +8,7 @@ from forms.user import RegisterForm
 from forms.login import LoginForm
 from flask_login import LoginManager, login_user, login_required, logout_user
 
-from data import db_session, jobs_api
+from data import db_session, jobs_api, users_api
 from flask import make_response, jsonify
 
 import users_resource 
@@ -475,4 +475,8 @@ def logout():
 if __name__ == '__main__':
     db_session.global_init("db/mars.db")
     app.register_blueprint(jobs_api.blueprint)
+    app.register_blueprint(users_api.blueprint)
+    api.add_resource(users_resource.UsersListResource, '/api/v2/users')
+    api.add_resource(users_resource.UserResource, '/api/v2/users/<int:user_id>')
+
     app.run(port=8080, host='127.0.0.1')
