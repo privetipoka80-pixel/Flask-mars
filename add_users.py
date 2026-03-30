@@ -46,5 +46,5 @@ def insert_users():
         db_sess.commit()
 
 
-db_session.global_init("db/mars_explorer.db")
+db_session.global_init("db/mars.db")
 insert_users()

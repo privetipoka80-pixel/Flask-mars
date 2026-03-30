@@ -2,14 +2,22 @@ from flask import Flask, url_for, render_template, request, redirect
 from facts import facts
 from data import db_session
 from data.users import User
-from data.jobs import Jobs
+from data.jobs import Job
 import os
 from forms.user import RegisterForm
 from forms.login import LoginForm
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, login_required, logout_user
 
+from data import db_session, jobs_api
+from flask import make_response, jsonify
+
+import users_resource 
+
+from flask_restful import reqparse, abort, Api, Resource
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+
+api = Api(app)
 
 db_session.global_init("db/mars_explorer.db")
 db_sess = db_session.create_session()
@@ -33,7 +41,7 @@ def load_user(user_id):
 @app.route('/')
 @app.route('/index')
 def index():
-    jobs = db_sess.query(Jobs).all()
+    jobs = db_sess.query(Job).all()
     users = db_sess.query(User).all()
     names = {}
     for user in users:
@@ -432,12 +440,13 @@ def reqister():
                                    message="Такой пользователь уже есть")
         user = User(
             name=form.name.data,
-            surname=form.name.data,
-            age=form.name.data,
-            position=form.name.data,
-            speciality=form.name.data,
-            address=form.name.data,
+            surname=form.surname.data,
             email=form.email.data,
+            age=form.age.data,
+            position=form.position.data,
+            speciality=form.speciality.data,
+            address=form.address.data,
+
         )
         user.set_password(form.password.data)
         db_sess.add(user)
@@ -446,5 +455,24 @@ def reqister():
     return render_template('register.html', title='Регистрация', form=form)
 
 
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
+
+@app.errorhandler(400)
+def bad_request(_):
+    return make_response(jsonify({'error': 'Bad Request'}), 400)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
+
+
 if __name__ == '__main__':
+    db_session.global_init("db/mars.db")
+    app.register_blueprint(jobs_api.blueprint)
     app.run(port=8080, host='127.0.0.1')
