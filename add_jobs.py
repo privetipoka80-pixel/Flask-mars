@@ -1,6 +1,6 @@
 from data.users import User
 from data import db_session
-from data.jobs import Jobs
+from data.jobs import Job
 
 data = [{'team_leader': 1,
          'job': 'deployment of residential modules 1 and 2',
@@ -26,7 +26,7 @@ data = [{'team_leader': 1,
 
 def insert_jobs():
     for elem in data:
-        job = Jobs()
+        job = Job()
         job.team_leader = elem['team_leader']
         job.job = elem['job']
         job.work_size = elem['work_size']
@@ -37,5 +37,5 @@ def insert_jobs():
         db_sess.commit()
 
 
-db_session.global_init("db/mars_explorer.db")
+db_session.global_init("db/mars.db")
 insert_jobs()

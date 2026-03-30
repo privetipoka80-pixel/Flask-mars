@@ -1,10 +1,11 @@
 import datetime
 import sqlalchemy
 from sqlalchemy import orm
-from data.db_session import SqlAlchemyBase
+from .db_session import SqlAlchemyBase
+from sqlalchemy_serializer import SerializerMixin
 
 
-class Jobs(SqlAlchemyBase):
+class Job(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'jobs'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
@@ -21,3 +22,6 @@ class Jobs(SqlAlchemyBase):
     is_finished = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
 
     user = orm.relationship('User')
+
+    def __repr__(self):
+        return f"<Job> {self.job}"
