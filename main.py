@@ -11,8 +11,8 @@ from flask_login import LoginManager, login_user, login_required, logout_user
 from data import db_session, jobs_api, users_api
 from flask import make_response, jsonify
 
-import users_resource 
-import jobs_resource
+from data import users_resource 
+from data import jobs_resource
 
 from flask_restful import reqparse, abort, Api, Resource
 app = Flask(__name__)
